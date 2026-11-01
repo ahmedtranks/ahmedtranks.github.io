@@ -587,3 +587,13 @@ html.anim .reel.rv.is-in { transform: none; transition: opacity 1.2s ease, trans
 .about-text .tools + .tools { margin-top: .4rem; }
 .about-text .socials { margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
 .about-text p:not(.eyebrow):not(.tools-label) { margin-bottom: .8rem; }
+/* level the About column with the experience timeline */
+.timeline li:last-child { padding-bottom: 0; }
+.about-text .stats { margin-top: 1.1rem; }
+.about-text .stats li { padding-top: .7rem; }
+.about-text p.tools-label { margin-top: .9rem; padding-top: .75rem; }
+.about-text .tools li { padding: .16rem .7rem; }
+.about-text .tools { gap: .35rem; }
+.about-text .socials { margin-top: .85rem; padding-top: .8rem; }
+.about-text .socials a { width: 38px; height: 38px; }
+.about-text p:not(.eyebrow):not(.tools-label) { margin-bottom: .6rem; }
