@@ -601,3 +601,5 @@ html.anim .reel.rv.is-in { transform: none; transition: opacity 1.2s ease, trans
 .about-text p.tools-label { margin-top: .75rem; }
 .about-text .stats li { padding-top: .6rem; }
 .about-text .socials a { width: 36px; height: 36px; }
+.btn, .text-link { white-space: nowrap; }
+@media (min-width: 861px) { .hero-row { grid-template-columns: minmax(0, 1fr) auto minmax(max-content, 1fr); } }
