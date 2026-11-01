@@ -597,3 +597,7 @@ html.anim .reel.rv.is-in { transform: none; transition: opacity 1.2s ease, trans
 .about-text .socials { margin-top: .85rem; padding-top: .8rem; }
 .about-text .socials a { width: 38px; height: 38px; }
 .about-text p:not(.eyebrow):not(.tools-label) { margin-bottom: .6rem; }
+.about-text .tools li { padding: .1rem .7rem; }
+.about-text p.tools-label { margin-top: .75rem; }
+.about-text .stats li { padding-top: .6rem; }
+.about-text .socials a { width: 36px; height: 36px; }
