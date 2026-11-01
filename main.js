@@ -302,6 +302,9 @@
     lastFocus = document.activeElement;
     media.replaceChildren();
     const kind = videoKind(item.video);
+    // open each piece in its own shape: reels tall, films wide
+    const shapes = { story: "9 / 16", square: "1 / 1", wide: "16 / 9" };
+    $("#lbPanel").style.setProperty("--ar", shapes[item.shape] || (kind ? "16 / 9" : "4 / 5"));
     if (kind === "youtube") {
       const id = (item.video.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/) || [])[1];
       media.append(make("iframe", {
@@ -333,7 +336,7 @@
     $("#lbTitle").textContent = title;
     link.hidden = !href;
     if (href) link.href = href;
-    $("#lbInfo").hidden = !title && !href;
+    $("#lbInfo").hidden = !href;
     lb.hidden = false;
     document.body.style.overflow = "hidden";
     $("#lbClose").focus();

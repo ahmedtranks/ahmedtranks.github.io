@@ -182,11 +182,13 @@
 
 <!-- نافذة عرض العمل -->
 <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true">
-  <div class="lb-panel">
-    <button class="lb-close" id="lbClose" type="button" data-t-label="close">✕</button>
+  <div class="lb-panel" id="lbPanel">
+    <div class="lb-bar">
+      <h3 id="lbTitle"></h3>
+      <button class="lb-close" id="lbClose" type="button" data-t-label="close">✕</button>
+    </div>
     <div class="lb-media" id="lbMedia"></div>
     <div class="lb-info" id="lbInfo">
-      <h3 id="lbTitle"></h3>
       <a class="lb-link" id="lbLink" target="_blank" rel="noopener" data-t="viewProject"></a>
     </div>
   </div>
