@@ -61,7 +61,7 @@
     return svg;
   };
   const socialLinks = ["behance", "vimeo", "tiktok"].filter((k) => SITE.contact[k]);
-  $("[data-socials]").forEach((box) => {
+  $$("[data-socials]").forEach((box) => {
     if (!socialLinks.length) { box.hidden = true; return; }
     box.append(...socialLinks.map((k) => {
       const a = make("a", { href: SITE.contact[k], target: "_blank", rel: "noopener" }, [icon(k)]);
