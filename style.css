@@ -147,7 +147,7 @@ html[dir="ltr"] .menu-links a:hover { transform: translateX(10px); }
   -webkit-mask-image: radial-gradient(circle at 50% 80%, #000 15%, transparent 62%);
 }
 /* the home section fills the first screen under the top bar; the work starts below the fold */
-.hero { --bar-h: 69px; display: flex; flex-direction: column; min-height: calc(100vh - var(--bar-h)); min-height: calc(100svh - var(--bar-h)); }
+.hero { --bar-h: 71px; display: flex; flex-direction: column; min-height: calc(100vh - var(--bar-h)); min-height: calc(100svh - var(--bar-h)); }
 .hero-stage {
   position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end;
   padding-top: clamp(1.25rem, 3.5vw, 2.75rem); text-align: center;
