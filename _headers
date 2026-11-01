@@ -1,0 +1,8 @@
+# Netlify: let browsers keep images, fonts and files for a week,
+# so repeat visits load almost instantly. Page code always revalidates.
+/images/*
+  Cache-Control: public, max-age=604800
+/fonts/*
+  Cache-Control: public, max-age=2592000
+/files/*
+  Cache-Control: public, max-age=86400

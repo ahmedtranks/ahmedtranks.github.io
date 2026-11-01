@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ahmed Hashish</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Ahmed Hashish — Multimedia & Motion Graphics Designer. أحمد حشيش — مصمم ملتيميديا وموشن جرافيك.">
+<link rel="icon" href="images/logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;800;900&display=swap">
+<link rel="stylesheet" href="style.css">
+<script>
+  // motion is opt-in: content stays visible if scripts fail or the visitor prefers less motion
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.documentElement.classList.add("anim");
+    setTimeout(function () { if (!window.__motionReady) document.documentElement.classList.remove("anim"); }, 3500);
+  }
+</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#top" aria-label="Ahmed Hashish">
+      <img src="images/logo.webp" alt="" width="44" height="44">
+      <span class="brand-name" id="brandName"></span>
+    </a>
+    <nav class="nav-pill" id="navPill">
+      <a href="#top" data-t="nav.home"></a>
+      <a href="#graphic" data-t="nav.graphic"></a>
+      <a href="#motion" data-t="nav.motion"></a>
+      <a href="#video" data-t="nav.video"></a>
+      <a href="#clients" data-t="nav.clients"></a>
+      <a href="#about" data-t="nav.about"></a>
+      <a href="#contact" data-t="nav.contact"></a>
+    </nav>
+    <div class="top-actions">
+      <button class="lang-btn" id="langBtn" type="button"></button>
+      <button class="burger" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu" data-t-label="menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- القائمة اللي بتفتح من زرار الـ 3 شرط -->
+<div class="menu" id="menu" hidden>
+  <div class="wrap menu-in">
+    <nav class="menu-links">
+      <a href="#top" data-t="nav.home"></a>
+      <a href="#graphic" data-t="sec.graphic"></a>
+      <a href="#motion" data-t="sec.motion"></a>
+      <a href="#video" data-t="sec.video"></a>
+      <a href="#clients" data-t="sec.clients"></a>
+      <a href="#about" data-t="nav.about"></a>
+      <a href="#contact" data-t="nav.contact"></a>
+    </nav>
+    <ul class="menu-contact" id="menuContact"></ul>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ===== الواجهة ===== -->
+  <section class="hero">
+    <div class="hero-rings" aria-hidden="true"></div>
+    <div class="wrap hero-stage">
+      <h1 class="hero-title">
+        <span class="line"><span class="line-in" data-site="headline0"></span></span>
+        <span class="line"><em class="line-in" data-site="headline1"></em></span>
+      </h1>
+      <div class="hero-row">
+        <div class="hero-id">
+          <p class="hero-name" data-site="name"></p>
+          <p class="hero-role" data-site="role"></p>
+          <p class="hero-intro" data-site="intro"></p>
+        </div>
+        <div class="hero-photo">
+          <img class="me" src="images/ahmed.webp" alt="" width="1000" height="961">
+        </div>
+        <div class="hero-cta">
+          <a class="btn btn-gold" href="#graphic"><span data-t="cta.work"></span> <span class="arr" aria-hidden="true">←</span></a>
+          <a class="text-link" id="heroWa" href="#contact" data-t="cta.wa"></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== معرض الأعمال: 3 شرائط متحركة (بتتملي تلقائي من data.js) ===== -->
+  <section class="works" id="graphic" data-cat="graphic" data-shape="tall">
+    <div class="wrap sec-head">
+      <h2 data-t="sec.graphic"></h2>
+      <div class="arrows">
+        <button class="arrow" data-dir="prev" type="button" data-t-label="prev">‹</button>
+        <button class="arrow" data-dir="next" type="button" data-t-label="next">›</button>
+      </div>
+    </div>
+    <div class="reel"><div class="reel-track"></div></div>
+    <div class="wrap reel-foot">
+      <a class="all-works" target="_blank" rel="noopener"><span data-t="allWorks"></span><span class="aw-arr" aria-hidden="true">←</span></a>
+    </div>
+  </section>
+
+  <section class="works" id="motion" data-cat="motion" data-shape="wide">
+    <div class="wrap sec-head">
+      <h2 data-t="sec.motion"></h2>
+      <div class="arrows">
+        <button class="arrow" data-dir="prev" type="button" data-t-label="prev">‹</button>
+        <button class="arrow" data-dir="next" type="button" data-t-label="next">›</button>
+      </div>
+    </div>
+    <div class="reel"><div class="reel-track"></div></div>
+    <div class="wrap reel-foot">
+      <a class="all-works" target="_blank" rel="noopener"><span data-t="allWorks"></span><span class="aw-arr" aria-hidden="true">←</span></a>
+    </div>
+  </section>
+
+  <section class="works" id="video" data-cat="video" data-shape="wide">
+    <div class="wrap sec-head">
+      <h2 data-t="sec.video"></h2>
+      <div class="arrows">
+        <button class="arrow" data-dir="prev" type="button" data-t-label="prev">‹</button>
+        <button class="arrow" data-dir="next" type="button" data-t-label="next">›</button>
+      </div>
+    </div>
+    <div class="reel"><div class="reel-track"></div></div>
+    <div class="wrap reel-foot">
+      <a class="all-works" target="_blank" rel="noopener"><span data-t="allWorks"></span><span class="aw-arr" aria-hidden="true">←</span></a>
+    </div>
+  </section>
+
+  <!-- ===== عملائي (بيتملي تلقائي من CLIENTS في data.js) ===== -->
+  <section class="clients" id="clients">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-t="sec.clients"></h2>
+        <p class="sec-sub" data-t="clients.sub"></p>
+      </div>
+      <div class="logo-rows" id="logoRows"></div>
+    </div>
+  </section>
+
+  <!-- ===== عني ===== -->
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="sec-head"><h2 data-t="nav.about"></h2></div>
+    </div>
+    <div class="wrap about-in">
+      <div class="about-text">
+        <h3 class="about-name" data-site="name"></h3>
+        <div id="aboutParas"></div>
+        <ul class="stats" id="stats"></ul>
+        <ul class="tools" id="tools"></ul>
+      </div>
+      <ol class="timeline" id="timeline"></ol>
+    </div>
+    <div class="wrap reel-foot resume-foot">
+      <a class="all-works" id="resumeBtn" download><span data-t="resume"></span><span class="aw-arr aw-down" aria-hidden="true">↓</span></a>
+    </div>
+  </section>
+
+  <!-- ===== تواصل ===== -->
+  <section class="contact" id="contact">
+    <div class="wrap contact-in">
+      <div>
+        <h2 data-t="contact.title"></h2>
+        <p class="contact-sub" data-t="contact.sub"></p>
+      </div>
+      <ul class="contact-list" id="contactList"></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <img src="images/logo.webp" alt="" width="36" height="36">
+    <span>© <span id="year"></span> <span data-site="brand"></span></span>
+  </div>
+</footer>
+
+<!-- نافذة عرض العمل -->
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true">
+  <div class="lb-panel">
+    <button class="lb-close" id="lbClose" type="button" data-t-label="close">✕</button>
+    <div class="lb-media" id="lbMedia"></div>
+    <div class="lb-info" id="lbInfo">
+      <h3 id="lbTitle"></h3>
+      <a class="lb-link" id="lbLink" target="_blank" rel="noopener" data-t="viewProject"></a>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
