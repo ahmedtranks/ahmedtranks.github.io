@@ -146,7 +146,12 @@ html[dir="ltr"] .menu-links a:hover { transform: translateX(10px); }
   mask-image: radial-gradient(circle at 50% 80%, #000 15%, transparent 62%);
   -webkit-mask-image: radial-gradient(circle at 50% 80%, #000 15%, transparent 62%);
 }
-.hero-stage { position: relative; padding-top: clamp(1.25rem, 3.5vw, 2.75rem); text-align: center; }
+/* the home section fills the first screen under the top bar; the work starts below the fold */
+.hero { --bar-h: 69px; display: flex; flex-direction: column; min-height: calc(100vh - var(--bar-h)); min-height: calc(100svh - var(--bar-h)); }
+.hero-stage {
+  position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end;
+  padding-top: clamp(1.25rem, 3.5vw, 2.75rem); text-align: center;
+}
 .hero-title { position: relative; z-index: 1; font-size: clamp(3rem, 1.4rem + 6.6vw, 7.6rem); line-height: 1.2; }
 html[lang="en"] .hero-title { line-height: 1.02; letter-spacing: -.01em; }
 .hero-title em { font-style: normal; color: var(--gold); }
@@ -341,6 +346,20 @@ html .all-works:hover .aw-down, html[dir="ltr"] .all-works:hover .aw-down { tran
 .about-name { margin: 0 0 1rem; font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); color: var(--gold); }
 .about-text p:not(.eyebrow) { color: var(--cream-mute); max-width: 40rem; margin: 0 0 1rem; }
 .tools { list-style: none; padding: 0; margin: 1.6rem 0 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.tools-label { margin: 1.4rem 0 0; font: 700 var(--step--1)/1.4 var(--f-second); color: var(--gold); letter-spacing: .04em; }
+.tools-label + .tools { margin-top: .6rem; }
+.tools.is-ai li { border-color: rgba(205, 171, 102, .45); background: rgba(205, 171, 102, .07); }
+
+/* social icons (Behance, Vimeo, TikTok) */
+.socials { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.2rem; }
+.socials a {
+  display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%;
+  border: 1px solid var(--line); color: var(--cream); background: rgba(245, 230, 195, .04);
+  transition: background .25s, border-color .25s, color .25s, transform .25s;
+}
+.socials a:hover { background: var(--gold); border-color: var(--gold); color: var(--navy-deep); transform: translateY(-2px); }
+.socials svg { width: 18px; height: 18px; fill: currentColor; }
+.hero-id .socials { margin-top: 1rem; }
 .tools li {
   font: 500 var(--step--1) var(--f-second); direction: ltr;
   padding: .3rem .8rem; border-radius: 999px; border: 1px solid var(--line); color: var(--cream);

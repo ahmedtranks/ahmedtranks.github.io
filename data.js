@@ -42,7 +42,12 @@ const SITE = {
   ],
   tools: [
     "After Effects", "Premiere Pro", "Illustrator", "Photoshop", "InDesign",
-    "DaVinci Resolve", "Blender", "Cinema 4D", "CapCut", "AI Tools",
+    "DaVinci Resolve", "Blender", "Cinema 4D", "CapCut",
+  ],
+  // نماذج وأدوات الذكاء الاصطناعي — بتظهر في سطر لوحدها تحت البرامج
+  aiTools: [
+    "Seedance", "Higgsfield", "Kling", "Wan", "MiniMax Hailuo", "Nano Banana",
+    "Gemini Omni Flash", "Seedream", "Midjourney", "GPT Image", "Ideogram",
   ],
   experience: [
     { when: "2026",        where: "Morganti GCC",                    place: { ar: "أبوظبي", en: "Abu Dhabi" },        what: { ar: "مصمم ملتيميديا", en: "Multimedia Designer" } },
@@ -59,6 +64,8 @@ const SITE = {
     behance: "https://www.behance.net/ahmedtranks",
     linkedin: "https://www.linkedin.com/in/ahmedtranks/",
     instagram: "",                          // حط لينك إنستجرام هنا لو عاوزه يظهر
+    vimeo: "https://vimeo.com/tranks",
+    tiktok: "https://www.tiktok.com/@ahmedtranks",
   },
   // زرار "تحميل سيرتي الذاتية" — الملف جوه فولدر files وبيتحمّل على طول.
   // لو عاوزه من الدرايف بدل كده: "https://drive.google.com/uc?export=download&id=1r4PVRIk1QpAC5JeEw12NJdJqFeOb40o6"

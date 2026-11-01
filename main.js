@@ -14,7 +14,7 @@
     ar: {
       "nav.home": "الرئيسية", "nav.graphic": "جرافيك", "nav.motion": "موشن", "nav.video": "AI & فيديو", "nav.clients": "عملائي", "nav.about": "عني", "nav.contact": "تواصل معي",
       "sec.clients": "عملائي", "clients.sub": "براندات وشركات اشتغلت معاهم.",
-      menu: "القائمة", "cta.work": "شاهد أعمالي", "cta.wa": "كلّمني واتساب", allWorks: "شاهد كل الأعمال", resume: "تحميل سيرتي الذاتية",
+      menu: "القائمة", "cta.work": "شاهد أعمالي", "cta.wa": "كلّمني واتساب", allWorks: "شاهد كل الأعمال", resume: "تحميل سيرتي الذاتية", aiTools: "نماذج وأدوات الذكاء الاصطناعي", vimeo: "فيميو", tiktok: "تيك توك",
       "sec.graphic": "جرافيك ديزاين", "sec.motion": "موشن جرافيك", "sec.video": "AI & فيديو برودكشن",
       "contact.title": "عندك فكرة؟ يلا نحرّكها.", "contact.sub": "ابعتلي على واتساب أو الإيميل، وهرد عليك في نفس اليوم.",
       whatsapp: "واتساب", email: "الإيميل", behance: "بيهانس", linkedin: "لينكدإن", instagram: "إنستجرام",
@@ -23,7 +23,7 @@
     en: {
       "sec.clients": "Clients", "clients.sub": "Brands and companies I've worked with.", "nav.clients": "Clients",
       "nav.home": "Home", "nav.graphic": "Graphic", "nav.motion": "Motion", "nav.video": "AI & Video", "nav.about": "About", "nav.contact": "Contact",
-      menu: "Menu", "cta.work": "See my work", "cta.wa": "WhatsApp me", allWorks: "View all work", resume: "Download my resume",
+      menu: "Menu", "cta.work": "See my work", "cta.wa": "WhatsApp me", allWorks: "View all work", resume: "Download my resume", aiTools: "AI models & tools", vimeo: "Vimeo", tiktok: "TikTok",
       "sec.graphic": "Graphic Design", "sec.motion": "Motion Graphics", "sec.video": "AI & Video Production",
       "contact.title": "Got an idea? Let's make it move.", "contact.sub": "Message me on WhatsApp or email and I'll reply the same day.",
       whatsapp: "WhatsApp", email: "Email", behance: "Behance", linkedin: "LinkedIn", instagram: "Instagram",
@@ -41,6 +41,34 @@
   if (waUrl) Object.assign($("#heroWa"), { href: waUrl, target: "_blank", rel: "noopener" });
   const short = (url) => (url || "").replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
   $("#tools").append(...SITE.tools.map((x) => make("li", { textContent: x })));
+  $("#aiTools").append(...(SITE.aiTools || []).map((x) => make("li", { textContent: x })));
+  if (!(SITE.aiTools || []).length) { $("#aiTools").hidden = true; $(".tools-label").hidden = true; }
+
+  // social icons: drawn from SVG paths (simple-icons, CC0), each linking to its profile
+  const ICONS = {
+    behance: "M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM20.37 11.04a2.346 2.346 0 0 0-1.795-.65 2.849 2.849 0 0 0-1.3.27 2.67 2.67 0 0 0-.832.642 2.447 2.447 0 0 0-.465.84 3.85 3.85 0 0 0-.181.81h4.758a3.38 3.38 0 0 0-.185-1.912ZM15.656 4.991h5.976v1.459h-5.976V4.991ZM7.246 5.012c.642 0 1.284.06 1.914.183.529.11 1.031.326 1.475.635.414.293.743.69.954 1.151.243.551.359 1.15.339 1.752a3.266 3.266 0 0 1-.508 1.866 3.712 3.712 0 0 1-1.499 1.224c.826.218 1.553.718 2.054 1.414.475.735.715 1.597.687 2.47a4.307 4.307 0 0 1-.458 2.031 3.945 3.945 0 0 1-1.236 1.4c-.531.367-1.123.638-1.749.8-.639.172-1.3.26-1.962.26H0V5.012h7.246Zm-.436 5.639a2.384 2.384 0 0 0 1.428-.416c.371-.302.569-.769.533-1.249a1.593 1.593 0 0 0-.177-.784 1.252 1.252 0 0 0-.471-.48 1.986 1.986 0 0 0-.678-.24 4.36 4.36 0 0 0-.793-.069H3.567v3.237l3.243.001Zm.181 5.903c.293.001.585-.03.871-.091.267-.056.521-.163.749-.316.224-.151.405-.354.531-.592.142-.302.21-.636.198-.97a1.96 1.96 0 0 0-.65-1.649 2.776 2.776 0 0 0-1.731-.494H3.567v4.11l3.424.002Z",
+    vimeo: "M23.9765 6.4168c-.105 2.338-1.739 5.5429-4.894 9.6088-3.2679 4.247-6.0258 6.3699-8.2898 6.3699-1.409 0-2.578-1.294-3.553-3.881l-1.9179-7.1138c-.719-2.584-1.488-3.878-2.312-3.878-.179 0-.806.378-1.881 1.132L0 7.2217a315.2 315.2 0 003.501-3.1279C5.08 2.7208 6.266 1.9928 7.055 1.9208c1.867-.18 3.016 1.1 3.447 3.838.465 2.953.789 4.789.971 5.507.539 2.45 1.131 3.674 1.776 3.674.502 0 1.256-.796 2.265-2.385 1.004-1.589 1.54-2.797 1.612-3.628.144-1.371-.395-2.061-1.614-2.061-.574 0-1.167.121-1.777.391 1.186-3.868 3.434-5.757 6.762-5.637 2.473.06 3.628 1.664 3.493 4.797l-.013.002z",
+    tiktok: "M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z",
+  };
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const icon = (name) => {
+    const svg = document.createElementNS(SVGNS, "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("aria-hidden", "true");
+    const path = document.createElementNS(SVGNS, "path");
+    path.setAttribute("d", ICONS[name]);
+    svg.append(path);
+    return svg;
+  };
+  const socialLinks = ["behance", "vimeo", "tiktok"].filter((k) => SITE.contact[k]);
+  $("[data-socials]").forEach((box) => {
+    if (!socialLinks.length) { box.hidden = true; return; }
+    box.append(...socialLinks.map((k) => {
+      const a = make("a", { href: SITE.contact[k], target: "_blank", rel: "noopener" }, [icon(k)]);
+      a.dataset.social = k;
+      return a;
+    }));
+  });
 
   // clients: two strips drifting in opposite directions; each strip's list is
   // repeated once so the loop is seamless (the copy is hidden from screen readers)
@@ -98,6 +126,7 @@
       else el.textContent = s;
     });
     $$("[data-t-label]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.tLabel)); });
+    $$("[data-social]").forEach((a) => { a.setAttribute("aria-label", t(a.dataset.social)); });
     $(".hero-photo .me").alt = site.name;
 
     $("#stats").replaceChildren(...SITE.stats.map((s) =>
@@ -114,6 +143,8 @@
       ["email", c.email, c.email && "mailto:" + c.email],
       ["behance", short(c.behance), c.behance],
       ["linkedin", short(c.linkedin), c.linkedin],
+      ["vimeo", short(c.vimeo), c.vimeo],
+      ["tiktok", short(c.tiktok), c.tiktok],
       ["instagram", short(c.instagram), c.instagram],
     ].filter((r) => r[2]);
     const contactItems = () => rows.map(([k, v, href]) => make("li", {}, [
