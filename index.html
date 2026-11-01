@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;800;900&display=swap">
-<link rel="stylesheet" href="style.css?v=1793567112">
+<link rel="stylesheet" href="style.css?v=1793567454">
 <script>
   // motion is opt-in: content stays visible if scripts fail or the visitor prefers less motion
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -153,8 +153,8 @@
         <h3 class="about-name" data-site="name"></h3>
         <div id="aboutParas"></div>
         <ul class="stats" id="stats"></ul>
-        <ul class="tools" id="tools"></ul>
         <p class="tools-label" data-t="aiTools"></p>
+        <ul class="tools" id="tools"></ul>
         <ul class="tools is-ai" id="aiTools"></ul>
         <div class="socials" data-socials></div>
       </div>
@@ -193,12 +193,17 @@
     </div>
     <div class="lb-media" id="lbMedia"></div>
     <div class="lb-info" id="lbInfo">
-      <a class="lb-link" id="lbLink" target="_blank" rel="noopener" data-t="viewProject"></a>
+      <button class="lb-nav" id="lbPrev" type="button" data-t-label="prev"><span aria-hidden="true">‹</span></button>
+      <div class="lb-mid">
+        <span class="lb-count" id="lbCount"></span>
+        <a class="lb-link" id="lbLink" target="_blank" rel="noopener" data-t="viewProject"></a>
+      </div>
+      <button class="lb-nav" id="lbNext" type="button" data-t-label="next"><span aria-hidden="true">›</span></button>
     </div>
   </div>
 </div>
 
-<script src="data.js?v=1793567112"></script>
-<script src="main.js?v=1793567112"></script>
+<script src="data.js?v=1793567454"></script>
+<script src="main.js?v=1793567454"></script>
 </body>
 </html>

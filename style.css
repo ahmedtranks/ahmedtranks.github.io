@@ -348,6 +348,7 @@ html .all-works:hover .aw-down, html[dir="ltr"] .all-works:hover .aw-down { tran
 .tools { list-style: none; padding: 0; margin: 1.6rem 0 0; display: flex; flex-wrap: wrap; gap: .5rem; }
 .tools-label { margin: 1.4rem 0 0; font: 700 var(--step--1)/1.4 var(--f-second); color: var(--gold); letter-spacing: .04em; }
 .tools-label + .tools { margin-top: .6rem; }
+.tools + .tools { margin-top: .5rem; }
 .tools.is-ai li { border-color: rgba(205, 171, 102, .45); background: rgba(205, 171, 102, .07); }
 
 /* social icons (Behance, Vimeo, TikTok) */
@@ -422,7 +423,18 @@ html[dir="rtl"] .lb-bar { padding: .5rem 1rem .5rem .6rem; }
 .lb-media { background: #000; display: grid; place-items: center; min-height: 0; }
 .lb-media iframe, .lb-media video { width: 100%; aspect-ratio: var(--ar); border: 0; display: block; }
 .lb-media img { width: 100%; height: auto; max-height: calc(100dvh - var(--pad) - var(--bars)); object-fit: contain; }
-.lb-info { padding: .7rem 1rem .8rem; display: flex; align-items: center; justify-content: center; }
+.lb-info { padding: .55rem .6rem; display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.lb-mid { display: flex; align-items: center; justify-content: center; gap: 1rem; min-width: 0; flex-wrap: wrap; }
+.lb-count { font: 700 var(--step--1)/1 var(--f-second); color: var(--cream-mute); direction: ltr; letter-spacing: .06em; }
+.lb-nav {
+  flex: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+  display: grid; place-items: center; padding: 0 0 3px;
+  font: 400 1.6rem/1 var(--f-display); color: var(--cream);
+  background: rgba(245, 230, 195, .06); border: 1px solid var(--line);
+  transition: background .2s, border-color .2s, color .2s;
+}
+.lb-nav:hover { background: var(--gold); border-color: var(--gold); color: var(--navy-deep); }
+html[dir="rtl"] .lb-nav span { display: inline-block; transform: scaleX(-1); }
 .lb-link { color: var(--gold); font-weight: 600; }
 .lb-close {
   flex: none; margin-inline-start: auto;

@@ -14,7 +14,7 @@
     ar: {
       "nav.home": "الرئيسية", "nav.graphic": "جرافيك", "nav.motion": "موشن", "nav.video": "AI & فيديو", "nav.clients": "عملائي", "nav.about": "عني", "nav.contact": "تواصل معي",
       "sec.clients": "عملائي", "clients.sub": "براندات وشركات اشتغلت معاهم.",
-      menu: "القائمة", "cta.work": "شاهد أعمالي", "cta.wa": "كلّمني واتساب", allWorks: "شاهد كل الأعمال", resume: "تحميل سيرتي الذاتية", aiTools: "نماذج وأدوات الذكاء الاصطناعي", vimeo: "فيميو", tiktok: "تيك توك",
+      menu: "القائمة", "cta.work": "شاهد أعمالي", "cta.wa": "كلّمني واتساب", allWorks: "شاهد كل الأعمال", resume: "تحميل سيرتي الذاتية", aiTools: "الأدوات ونماذج الذكاء الاصطناعي", vimeo: "فيميو", tiktok: "تيك توك",
       "sec.graphic": "جرافيك ديزاين", "sec.motion": "موشن جرافيك", "sec.video": "AI & فيديو برودكشن",
       "contact.title": "عندك فكرة؟ يلا نحرّكها.", "contact.sub": "ابعتلي على واتساب أو الإيميل، وهرد عليك في نفس اليوم.",
       whatsapp: "واتساب", email: "الإيميل", behance: "بيهانس", linkedin: "لينكدإن", instagram: "إنستجرام",
@@ -23,7 +23,7 @@
     en: {
       "sec.clients": "Clients", "clients.sub": "Brands and companies I've worked with.", "nav.clients": "Clients",
       "nav.home": "Home", "nav.graphic": "Graphic", "nav.motion": "Motion", "nav.video": "AI & Video", "nav.about": "About", "nav.contact": "Contact",
-      menu: "Menu", "cta.work": "See my work", "cta.wa": "WhatsApp me", allWorks: "View all work", resume: "Download my resume", aiTools: "AI models & tools", vimeo: "Vimeo", tiktok: "TikTok",
+      menu: "Menu", "cta.work": "See my work", "cta.wa": "WhatsApp me", allWorks: "View all work", resume: "Download my resume", aiTools: "Tools & AI models", vimeo: "Vimeo", tiktok: "TikTok",
       "sec.graphic": "Graphic Design", "sec.motion": "Motion Graphics", "sec.video": "AI & Video Production",
       "contact.title": "Got an idea? Let's make it move.", "contact.sub": "Message me on WhatsApp or email and I'll reply the same day.",
       whatsapp: "WhatsApp", email: "Email", behance: "Behance", linkedin: "LinkedIn", instagram: "Instagram",
@@ -42,7 +42,7 @@
   const short = (url) => (url || "").replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
   $("#tools").append(...SITE.tools.map((x) => make("li", { textContent: x })));
   $("#aiTools").append(...(SITE.aiTools || []).map((x) => make("li", { textContent: x })));
-  if (!(SITE.aiTools || []).length) { $("#aiTools").hidden = true; $(".tools-label").hidden = true; }
+  if (!(SITE.aiTools || []).length) $("#aiTools").hidden = true;
 
   // social icons: drawn from SVG paths (simple-icons, CC0), each linking to its profile
   const ICONS = {
@@ -190,7 +190,7 @@
       if (item.video) card.append(make("span", { className: "play", ariaHidden: "true" }));
       card.dataset.i = i;
       if (clone) { card.tabIndex = -1; card.setAttribute("aria-hidden", "true"); }
-      card.addEventListener("click", (e) => { if (e.detail === 0 || this.moved < 6) openLightbox(item); });
+      card.addEventListener("click", (e) => { if (e.detail === 0 || this.moved < 6) openLightbox(this.items, i); });
       return card;
     }
 
@@ -347,8 +347,19 @@
     return "link";
   };
 
-  function openLightbox(item) {
-    lastFocus = document.activeElement;
+  // the viewer steps through the section it was opened from
+  let lbList = [], lbIndex = 0;
+  function openLightbox(list, index) {
+    if (lb.hidden) lastFocus = document.activeElement;
+    lbList = list;
+    lbIndex = (index + list.length) % list.length;
+    showItem(lbList[lbIndex]);
+    $("#lbCount").textContent = `${lbIndex + 1} / ${lbList.length}`;
+    $("#lbPrev").hidden = $("#lbNext").hidden = lbList.length < 2;
+  }
+  const stepLightbox = (d) => { if (!lb.hidden && lbList.length > 1) openLightbox(lbList, lbIndex + d); };
+
+  function showItem(item) {
     media.replaceChildren();
     const kind = videoKind(item.video);
     // open each piece in its own shape: reels tall, films wide
@@ -387,10 +398,11 @@
     $("#lbTitle").textContent = title;
     link.hidden = !href;
     if (href) link.href = href;
-    $("#lbInfo").hidden = !href;
-    lb.hidden = false;
-    document.body.style.overflow = "hidden";
-    $("#lbClose").focus();
+    if (lb.hidden) {
+      lb.hidden = false;
+      document.body.style.overflow = "hidden";
+      $("#lbClose").focus();
+    }
   }
   function closeLightbox() {
     lb.hidden = true;
@@ -400,7 +412,16 @@
   }
   $("#lbClose").addEventListener("click", closeLightbox);
   lb.addEventListener("click", (e) => { if (e.target === lb) closeLightbox(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !lb.hidden) closeLightbox(); });
+  $("#lbNext").addEventListener("click", () => stepLightbox(1));
+  $("#lbPrev").addEventListener("click", () => stepLightbox(-1));
+  document.addEventListener("keydown", (e) => {
+    if (lb.hidden) return;
+    if (e.key === "Escape") closeLightbox();
+    // arrow keys follow the reading direction: in Arabic, left means next
+    const rtl = document.documentElement.dir === "rtl";
+    if (e.key === "ArrowRight") stepLightbox(rtl ? -1 : 1);
+    if (e.key === "ArrowLeft") stepLightbox(rtl ? 1 : -1);
+  });
 
   /* ============================== menu ============================== */
   const menuBtn = $("#menuBtn"), menu = $("#menu");
