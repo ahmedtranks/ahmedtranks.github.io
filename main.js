@@ -73,8 +73,6 @@
     $("#logoRows").append(make("div", { className: cls }, [track]));
   });
   $("#year").textContent = new Date().getFullYear();
-  // top-bar name sits on two lines (e.g. Ahmed / Hashish)
-  $("#brandName").append(...SITE.brand.split(" ").map((w) => make("span", { textContent: w })));
   const resumeBtn = $("#resumeBtn");
   if (SITE.resume) resumeBtn.href = SITE.resume; else resumeBtn.parentElement.hidden = true;
 
@@ -90,6 +88,9 @@
       headline0: pick(SITE.headline)[0], headline1: pick(SITE.headline)[1],
     };
     $$("[data-site]").forEach((el) => { el.textContent = site[el.dataset.site] || ""; });
+    // top-bar name sits on two lines: AHMED / HASHISH, or أحمد / حشيش in Arabic
+    const brandWords = (lang === "ar" ? pick(SITE.name) : SITE.brand).split(" ");
+    $("#brandName").replaceChildren(...brandWords.map((w) => make("span", { textContent: w })));
     // "&" is wrapped so it can be drawn in a font that has the glyph (the display fonts lack it)
     $$("[data-t]").forEach((el) => {
       const s = t(el.dataset.t);
@@ -250,18 +251,35 @@
       this.track.style.transform = `translate3d(${x}px,0,0)`;
 
       const mid = this.reelW / 2;
+      const vis = [];
+      let pivot = -1, best = Infinity;
       for (const card of this.cards) {
         const center = card.left + x + card.w / 2;
-        if (center < -card.w || center > this.reelW + card.w) continue;
+        if (center < -card.w * 1.5 || center > this.reelW + card.w * 1.5) continue;
         const d = Math.abs(center - mid);
         let near = Math.max(0, 1 - d / (card.w * 1.4));
         near = near * near * (3 - 2 * near);
         const far = Math.max(0, 1 - d / (this.reelW * .62));
-        card.el.style.transform = `scale(${1 + this.amp * near})`;
+        const scale = 1 + this.amp * near;
+        if (d < best) { best = d; pivot = vis.length; }
+        vis.push({ card, near, far, scale, grow: card.w * (scale - 1) });
+      }
+      // the growing cards push their neighbours outward, so the gap between cards stays clear
+      const shift = new Array(vis.length).fill(0);
+      for (let i = pivot + 1, acc = vis[pivot] ? vis[pivot].grow / 2 : 0; i < vis.length; i++) {
+        shift[i] = acc + vis[i].grow / 2;
+        acc += vis[i].grow;
+      }
+      for (let i = pivot - 1, acc = vis[pivot] ? vis[pivot].grow / 2 : 0; i >= 0; i--) {
+        shift[i] = -(acc + vis[i].grow / 2);
+        acc += vis[i].grow;
+      }
+      vis.forEach(({ card, near, far, scale }, i) => {
+        card.el.style.transform = `translateX(${shift[i].toFixed(1)}px) scale(${scale})`;
         card.el.style.opacity = (.42 + .58 * Math.max(near, far * far)).toFixed(3);
         card.el.style.zIndex = Math.round(near * 10);
         card.el.style.setProperty("--ring", this.ampTarget > .15 ? near.toFixed(2) : 0);
-      }
+      });
     }
   }
 
@@ -305,6 +323,8 @@
     // open each piece in its own shape: reels tall, films wide
     const shapes = { story: "9 / 16", square: "1 / 1", wide: "16 / 9" };
     $("#lbPanel").style.setProperty("--ar", shapes[item.shape] || (kind ? "16 / 9" : "4 / 5"));
+    // Drive's player squeezes its controls into a broken strip when the frame is short
+    $("#lbPanel").classList.toggle("is-player", kind === "drive" || kind === "youtube" || kind === "vimeo");
     if (kind === "youtube") {
       const id = (item.video.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/) || [])[1];
       media.append(make("iframe", {

@@ -80,6 +80,7 @@ html[lang="en"] :is(.eyebrow, .hero-role) { letter-spacing: .04em; }
 .brand img { width: 42px; height: 42px; flex: none; }
 .brand-name { display: grid; font-weight: 700; direction: ltr; text-align: left; white-space: nowrap; font-size: .92rem; line-height: 1.05; letter-spacing: .08em; text-transform: uppercase; }
 .brand-name span:last-child { color: var(--gold); }
+html[lang="ar"] .brand-name { direction: rtl; text-align: right; letter-spacing: 0; font-size: 1.05rem; line-height: 1.25; }
 .nav-pill {
   display: flex; align-items: center; gap: .2rem; padding: .32rem;
   border-radius: 999px; background: rgba(29, 58, 82, .55); border: 1px solid var(--line);
@@ -411,6 +412,11 @@ html[dir="rtl"] .lb-bar { padding: .5rem 1rem .5rem .6rem; }
   transition: background .2s, border-color .2s;
 }
 .lb-close:hover { background: var(--gold); border-color: var(--gold); color: var(--navy-deep); }
+/* upright phones: give embedded players the full height so their controls have room;
+   a landscape video plays letterboxed in the middle */
+@media (max-width: 700px) and (orientation: portrait) {
+  .lb-panel.is-player { --ar: 9 / 16 !important; }
+}
 @media (max-width: 700px) {
   .lightbox { padding: max(8px, env(safe-area-inset-top, 0px)) max(8px, env(safe-area-inset-right, 0px)) max(8px, env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px)); }
   .lb-panel { --pad: 16px; }
