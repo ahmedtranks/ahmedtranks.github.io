@@ -603,3 +603,27 @@ html.anim .reel.rv.is-in { transform: none; transition: opacity 1.2s ease, trans
 .about-text .socials a { width: 36px; height: 36px; }
 .btn, .text-link { white-space: nowrap; }
 @media (min-width: 861px) { .hero-row { grid-template-columns: minmax(0, 1fr) auto minmax(max-content, 1fr); } }
+
+/* ===== logo intro (intro.js): full-screen Lottie over the page, once per visit ===== */
+.logo-intro { display: none; }
+html.has-intro .logo-intro, .logo-intro.is-out {
+  display: block; position: fixed; inset: 0; z-index: 100; background: var(--navy-deep);
+  transition: opacity .7s ease, visibility 0s linear .7s;
+}
+html.has-intro body { overflow: hidden; }
+.logo-intro.is-out { opacity: 0; visibility: hidden; pointer-events: none; }
+.intro-stage { position: absolute; inset: 0; }
+.intro-stage svg { display: block; }
+.intro-skip, .intro-sound {
+  position: absolute; bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+  height: 42px; border-radius: 999px; cursor: pointer;
+  color: var(--cream); background: rgba(14, 31, 44, .55); border: 1px solid var(--line);
+  opacity: 0; transition: opacity .5s ease .6s, border-color .2s, color .2s;
+}
+.logo-intro.is-playing :is(.intro-skip, .intro-sound) { opacity: 1; }
+.intro-skip:hover, .intro-sound:hover { border-color: var(--gold); color: var(--gold); }
+.intro-skip { inset-inline-end: 22px; padding: 0 20px; font: 700 .95rem var(--f-second); }
+.intro-sound { inset-inline-start: 22px; width: 42px; display: grid; place-items: center; }
+.intro-sound svg { width: 20px; height: 20px; fill: currentColor; }
+.intro-sound .on, .intro-sound.is-on .off { display: none; }
+.intro-sound.is-on .on { display: block; }

@@ -463,6 +463,7 @@
     // start the hero sequence once the display fonts are in, so lines don't reflow mid-move
     const fontsIn = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
     Promise.race([fontsIn, new Promise((r) => setTimeout(r, 900))])
+      .then(() => window.__intro) // wait for the logo intro (intro.js) to step aside
       .then(() => requestAnimationFrame(() => root.classList.add("intro")));
 
     // scroll reveals; items in the same group enter one after another

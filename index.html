@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;800;900&display=swap">
-<link rel="stylesheet" href="style.css?v=1793568089">
+<link rel="stylesheet" href="style.css?v=1793737959">
 <script>
   // motion is opt-in: content stays visible if scripts fail or the visitor prefers less motion
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -20,6 +20,17 @@
 </script>
 </head>
 <body>
+
+<!-- انترو اللوجو (بيظهر مرة واحدة في الزيارة). عشان تلغيه امسح الـ div ده والسطر اللي تحته -->
+<div class="logo-intro" id="intro">
+  <div class="intro-stage"></div>
+  <button class="intro-sound" type="button">
+    <svg class="on" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <svg class="off" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <button class="intro-skip" type="button"></button>
+</div>
+<script src="intro.js?v=1793737959"></script>
 
 <header class="topbar">
   <div class="wrap topbar-in">
@@ -203,7 +214,7 @@
   </div>
 </div>
 
-<script src="data.js?v=1793568089"></script>
-<script src="main.js?v=1793568089"></script>
+<script src="data.js?v=1793737959"></script>
+<script src="main.js?v=1793737959"></script>
 </body>
 </html>
