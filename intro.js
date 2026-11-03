@@ -56,8 +56,8 @@
   });
 
   // never hold the visitor if the files are slow or fail
-  const giveUp = setTimeout(() => finish(), 3000);
-  setTimeout(() => finish(), 9000);
+  const giveUp = setTimeout(() => finish(), 5000);
+  setTimeout(() => finish(), 11000);
 
   const file = innerWidth >= innerHeight ? "intro/landscape.json" : "intro/portrait.json";
   const lib = new Promise((ok, fail) => {
