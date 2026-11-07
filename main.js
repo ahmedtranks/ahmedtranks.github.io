@@ -18,7 +18,7 @@
       "sec.graphic": "جرافيك ديزاين", "sec.motion": "موشن جرافيك", "sec.video": "AI & فيديو برودكشن",
       "contact.title": "عندك فكرة؟ يلا نحرّكها.", "contact.sub": "ابعتلي على واتساب أو الإيميل، وهرد عليك في نفس اليوم.",
       whatsapp: "واتساب", email: "الإيميل", behance: "بيهانس", linkedin: "لينكدإن", instagram: "إنستجرام",
-      prev: "السابق", next: "التالي", close: "إغلاق", viewProject: "شوف المشروع كامل ↗", openVideo: "افتح الفيديو ↗", work: "عمل",
+      prev: "السابق", next: "التالي", close: "إغلاق", viewProject: "شوف المشروع كامل ↗", viewFull: "شوف الصورة الأصلية ↗", openVideo: "افتح الفيديو ↗", work: "عمل",
     },
     en: {
       "sec.clients": "Clients", "clients.sub": "Brands and companies I've worked with.", "nav.clients": "Clients",
@@ -27,7 +27,7 @@
       "sec.graphic": "Graphic Design", "sec.motion": "Motion Graphics", "sec.video": "AI & Video Production",
       "contact.title": "Got an idea? Let's make it move.", "contact.sub": "Message me on WhatsApp or email and I'll reply the same day.",
       whatsapp: "WhatsApp", email: "Email", behance: "Behance", linkedin: "LinkedIn", instagram: "Instagram",
-      prev: "Previous", next: "Next", close: "Close", viewProject: "View full project ↗", openVideo: "Open video ↗", work: "Work",
+      prev: "Previous", next: "Next", close: "Close", viewProject: "View full project ↗", viewFull: "View original image ↗", openVideo: "Open video ↗", work: "Work",
     },
   };
   let lang = "ar";
@@ -392,9 +392,9 @@
       media.append(make("img", { src: item.image, alt: pick(item.title) || "" }));
     }
     const title = pick(item.title) || "";
-    // a direct link to the video too, in case the embedded player can't load
-    const href = item.link || (kind && kind !== "file" ? item.video : "");
-    link.textContent = t(item.link ? "viewProject" : "openVideo");
+    // a direct link to the video too, in case the embedded player can't load; images link to the full-size original
+    const href = item.link || (kind && kind !== "file" ? item.video : "") || item.full || "";
+    link.textContent = t(item.link ? "viewProject" : kind ? "openVideo" : "viewFull");
     $("#lbTitle").textContent = title;
     link.hidden = !href;
     if (href) link.href = href;

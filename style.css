@@ -460,16 +460,21 @@ html[dir="rtl"] .lb-nav.is-next svg { transform: none; }
 @media (max-width: 700px) and (orientation: portrait) {
   .lb-panel.is-player { --ar: 9 / 16 !important; }
 }
-/* wide screens: the arrows sit outside the frame, halfway down its sides */
+/* wide screens: the arrows stay put beside where a landscape frame ends (--lw),
+   whatever the shape of the piece, so you can keep clicking in one spot */
 @media (min-width: 861px) {
+  .lightbox {
+    --lw: min(1100px, calc(100vw - 32px - 190px), calc((100vh - 32px - 6.5rem) * 16 / 9));
+    --lw: min(1100px, calc(100vw - 32px - 190px), calc((100dvh - 32px - 6.5rem) * 16 / 9));
+  }
   .lb-panel {
     overflow: visible;
-    width: min(1100px, calc(100% - 150px), calc((100vh - var(--pad) - var(--bars)) * var(--ar)));
-    width: min(1100px, calc(100% - 150px), calc((100dvh - var(--pad) - var(--bars)) * var(--ar)));
+    width: min(1100px, calc(100% - 190px), calc((100vh - var(--pad) - var(--bars)) * var(--ar)));
+    width: min(1100px, calc(100% - 190px), calc((100dvh - var(--pad) - var(--bars)) * var(--ar)));
   }
-  .lb-nav { position: absolute; top: 50%; translate: 0 -50%; width: 54px; height: 54px; }
-  #lbPrev { inset-inline-start: -74px; }
-  #lbNext { inset-inline-end: -74px; }
+  .lb-nav { position: fixed; top: 50%; translate: 0 -50%; width: 54px; height: 54px; }
+  #lbPrev { inset-inline-start: calc(50% - var(--lw) / 2 - 86px); }
+  #lbNext { inset-inline-end: calc(50% - var(--lw) / 2 - 86px); }
   .lb-info { justify-content: center; min-height: 3.2rem; }
 }
 @media (max-width: 700px) {
