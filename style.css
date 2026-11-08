@@ -467,6 +467,12 @@ html[dir="rtl"] .lb-nav.is-next svg { transform: none; }
   }
   .lb-panel { --z: 1.7; }
 }
+/* Drive's player also needs height: in a short 16:9 frame it moves the timeline to the top
+   and stacks its buttons over the picture. Upright phones give wide videos a square frame */
+@media (max-width: 700px) and (orientation: portrait) {
+  .lb-panel.is-player.is-widevid { --ar: 1 / 1 !important; }
+}
+@media (max-height: 500px) { .lb-panel { --z: 2.2; } }
 /* phones on their side: the title bar goes away and the close button floats over the
    video, so the player gets nearly the whole height */
 @media (max-height: 500px) {

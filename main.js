@@ -367,6 +367,7 @@
     $("#lbPanel").style.setProperty("--ar", shapes[item.shape] || (kind ? "16 / 9" : "4 / 5"));
     // Drive's player squeezes its controls into a broken strip when the frame is short
     $("#lbPanel").classList.toggle("is-player", kind === "drive" || kind === "youtube" || kind === "vimeo");
+    $("#lbPanel").classList.toggle("is-widevid", !!kind && (!item.shape || item.shape === "wide"));
     if (kind === "youtube") {
       const id = (item.video.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/) || [])[1];
       media.append(make("iframe", {
