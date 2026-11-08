@@ -455,10 +455,34 @@ html[dir="rtl"] .lb-nav.is-next svg { transform: none; }
   transition: background .2s, border-color .2s;
 }
 .lb-close:hover { background: var(--gold); border-color: var(--gold); color: var(--navy-deep); }
-/* upright phones: give embedded players the full height so their controls have room;
-   a landscape video plays letterboxed in the middle */
-@media (max-width: 700px) and (orientation: portrait) {
-  .lb-panel.is-player { --ar: 9 / 16 !important; }
+/* phones: embedded players (Drive especially) draw controls too big for a small frame and
+   cut them off. The player gets a bigger virtual frame that is shrunk to fit, so its
+   controls fit inside at a smaller size; the frame keeps the video's own shape */
+@media (max-width: 700px), (max-height: 500px) {
+  .lb-panel.is-player .lb-media { position: relative; aspect-ratio: var(--ar); overflow: hidden; }
+  .lb-panel.is-player .lb-media iframe {
+    position: absolute; top: 0; left: 0; aspect-ratio: auto;
+    width: calc(100% * var(--z)); height: calc(100% * var(--z));
+    transform: scale(calc(1 / var(--z))); transform-origin: 0 0;
+  }
+  .lb-panel { --z: 1.7; }
+}
+/* phones on their side: the title bar goes away and the close button floats over the
+   video, so the player gets nearly the whole height */
+@media (max-height: 500px) {
+  .lightbox { padding: max(6px, env(safe-area-inset-top, 0px)) max(8px, env(safe-area-inset-right, 0px)) max(6px, env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px)); }
+  .lb-panel { --bars: 3.6rem; --pad: 14px; }
+  /* left side: Drive keeps its own pop-out button in the top right */
+  .lb-bar { position: absolute; top: 6px; left: 6px; z-index: 2; padding: 0 !important; }
+  .lb-bar h3 { display: none; }
+  .lb-close { background: rgba(8, 18, 26, .7); }
+  .lb-info { padding: .35rem .6rem; justify-content: center; min-height: 3.3rem; }
+  .lb-count { display: none; }
+  .lb-link { white-space: nowrap; font-size: .9rem; }
+  /* arrows move out to the screen edges so a narrow (upright) video still has room */
+  .lb-nav { position: fixed; top: 50%; translate: 0 -50%; width: 44px; height: 44px; background: rgba(14, 31, 44, .8); }
+  #lbPrev { inset-inline-start: max(10px, env(safe-area-inset-left, 0px)); }
+  #lbNext { inset-inline-end: max(10px, env(safe-area-inset-right, 0px)); }
 }
 /* wide screens: the arrows stay put beside where a landscape frame ends (--lw),
    whatever the shape of the piece, so you can keep clicking in one spot */
@@ -633,6 +657,27 @@ html.anim .reel.rv.is-in { transform: none; transition: opacity 1.2s ease, trans
 .about-text .socials a { width: 36px; height: 36px; }
 .btn, .text-link { white-space: nowrap; }
 @media (min-width: 861px) { .hero-row { grid-template-columns: minmax(0, 1fr) auto minmax(max-content, 1fr); } }
+
+/* phones: a layout of its own that fits the first screen. Headline on two lines, the photo
+   sized by the screen's height, name and role tight under it, then the two buttons side by
+   side and the social icons in one row; the longer intro waits in the About section */
+@media (max-width: 860px) {
+  .hero-stage { justify-content: center; padding-top: clamp(.75rem, 2.5svh, 1.75rem); }
+  .hero-title { font-size: min(12.4vw, 8svh, 5.4rem); line-height: 1.15; }
+  .hero-row { margin-top: -1.2svh; gap: 0; }
+  .hero-photo { width: min(70vw, 36svh, 340px); }
+  .hero-id { margin-top: -2.4svh; max-width: 30rem; }
+  .hero-name { font-size: min(7vw, 3.6svh, 2rem); line-height: 1.35; }
+  .hero-role { font-size: min(4.2vw, 2.2svh, 1.05rem); white-space: normal; }
+  .hero-intro { display: none; }
+  .hero-id .socials { justify-content: center; margin-top: 1.6svh; gap: .5rem; }
+  .hero-id .socials a { width: 40px; height: 40px; }
+  .hero-cta {
+    flex-direction: row; justify-content: center; align-items: center; flex-wrap: wrap;
+    gap: .6rem 1.2rem; margin-top: 2.4svh; padding-bottom: max(1.5rem, 4svh);
+  }
+  .hero-cta .btn { padding: .75rem 1.4rem; }
+}
 
 /* ===== logo intro (intro.js): full-screen Lottie over the page, once per visit ===== */
 .logo-intro { display: none; }
