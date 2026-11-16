@@ -49,6 +49,17 @@
       const mode = qm === "bg" || qm === "side" ? qm : HERO_MODE;
       hero.dataset.hero = mode;
       if (mode === "bg") hero.prepend(box); // behind the whole hero, not inside the row
+      // side layout: the frame takes the exact height of the text block (name to icons)
+      const idBox = $(".hero-id");
+      if (mode === "side" && idBox && "ResizeObserver" in window) {
+        const fit = () => {
+          const wide = matchMedia("(min-width: 861px)").matches;
+          box.style.setProperty("--idh", wide ? idBox.offsetHeight + "px" : "auto");
+          box.style.setProperty("--idw", wide ? idBox.offsetWidth + "px" : "100%");
+        };
+        new ResizeObserver(fit).observe(idBox);
+        addEventListener("resize", fit);
+      }
       const small = matchMedia("(max-width: 860px)").matches;
       const saveData = navigator.connection && navigator.connection.saveData;
       const load = () => { if (!vid.getAttribute("src")) { vid.src = small ? vid.dataset.srcSm : vid.dataset.src; vid.preload = "auto"; } };
