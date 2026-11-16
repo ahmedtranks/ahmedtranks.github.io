@@ -39,6 +39,74 @@
   const c = SITE.contact;
   const waUrl = c.whatsapp ? "https://wa.me/" + c.whatsapp : "";
   if (waUrl) Object.assign($("#heroWa"), { href: waUrl, target: "_blank", rel: "noopener" });
+
+  // hero showreel. ?hero=bg | ?hero=side previews a layout; HERO_MODE is the live default
+  {
+    const HERO_MODE = "side";
+    const hero = $(".hero"), box = $(".hero-video"), vid = box && box.querySelector("video");
+    if (hero && vid) {
+      const qm = new URLSearchParams(location.search).get("hero");
+      const mode = qm === "bg" || qm === "side" ? qm : HERO_MODE;
+      hero.dataset.hero = mode;
+      if (mode === "bg") hero.prepend(box); // behind the whole hero, not inside the row
+      const small = matchMedia("(max-width: 860px)").matches;
+      const saveData = navigator.connection && navigator.connection.saveData;
+      const load = () => { if (!vid.getAttribute("src")) { vid.src = small ? vid.dataset.srcSm : vid.dataset.src; vid.preload = "auto"; } };
+      let userPaused = false;
+      if (!reduceMotion && !saveData) { load(); vid.play().catch(() => {}); }
+      else userPaused = true;
+      // pause while scrolled away, so it costs nothing further down the page
+      new IntersectionObserver(([e]) => {
+        if (!vid.getAttribute("src") || isFull()) return;
+        if (!e.isIntersecting) vid.pause();
+        else if (!userPaused) vid.play().catch(() => {});
+      }).observe(hero);
+
+      const snd = box.querySelector(".hero-sound"), ply = box.querySelector(".hero-play"), full = box.querySelector(".hero-full");
+      const sync = () => {
+        ply.classList.toggle("is-paused", vid.paused);
+        snd.classList.toggle("is-on", !vid.muted);
+        snd.setAttribute("aria-pressed", String(!vid.muted));
+      };
+      ["play", "pause", "volumechange"].forEach((ev) => vid.addEventListener(ev, sync));
+      sync();
+      const toggle = () => {
+        load();
+        if (vid.paused) { userPaused = false; vid.play().catch(() => {}); }
+        else { userPaused = true; vid.pause(); }
+      };
+      ply.addEventListener("click", toggle);
+      vid.addEventListener("click", () => { if (!isFull()) toggle(); });
+      snd.addEventListener("click", () => {
+        load();
+        vid.muted = !vid.muted;
+        if (!vid.muted) { userPaused = false; vid.play().catch(() => {}); }
+      });
+
+      // full screen: switch to the full-HD file at the same moment, sound on, native controls
+      const isFull = () => document.fullscreenElement === vid || document.webkitFullscreenElement === vid || vid.webkitDisplayingFullscreen;
+      full.addEventListener("click", () => {
+        load();
+        const hd = vid.dataset.srcHd;
+        if (hd && !vid.currentSrc.endsWith(hd)) {
+          const t = vid.currentTime;
+          vid.src = hd;
+          vid.addEventListener("loadedmetadata", () => { vid.currentTime = t; vid.play().catch(() => {}); }, { once: true });
+        }
+        vid.muted = false; userPaused = false;
+        vid.controls = true;
+        vid.play().catch(() => {});
+        if (vid.requestFullscreen) vid.requestFullscreen().catch(() => { vid.controls = false; });
+        else if (vid.webkitRequestFullscreen) vid.webkitRequestFullscreen();
+        else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen(); // iPhone
+        setTimeout(() => { if (!isFull()) vid.controls = false; }, 1500); // full screen refused: keep the clean frame
+      });
+      const leave = () => { if (!isFull()) { vid.controls = false; sync(); } };
+      document.addEventListener("fullscreenchange", leave);
+      document.addEventListener("webkitfullscreenchange", leave);
+      vid.addEventListener("webkitendfullscreen", () => { vid.controls = false; sync(); });
+    }
+  }
   const short = (url) => (url || "").replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
   $("#tools").append(...SITE.tools.map((x) => make("li", { textContent: x })));
   $("#aiTools").append(...(SITE.aiTools || []).map((x) => make("li", { textContent: x })));

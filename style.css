@@ -708,3 +708,68 @@ html.has-intro body { overflow: hidden; }
 .intro-sound svg { width: 20px; height: 20px; fill: currentColor; }
 .intro-sound .on, .intro-sound.is-on .off { display: none; }
 .intro-sound.is-on .on { display: block; }
+
+/* ===== hero showreel (video/showreel.mp4). Two layouts, picked by data-hero on .hero ===== */
+.hero-video { display: none; }
+.hero-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hero-vctl { position: absolute; inset-inline-end: 12px; bottom: 12px; z-index: 2; display: flex; gap: 8px; }
+.hero-vctl button {
+  width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; padding: 0;
+  color: var(--cream); background: rgba(14, 31, 44, .6); border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  transition: border-color .2s, color .2s, background-color .2s;
+}
+.hero-vctl button:hover { border-color: var(--gold); color: var(--gold); }
+.hero-vctl svg { width: 20px; height: 20px; fill: currentColor; }
+.hero-sound .on, .hero-sound.is-on .off { display: none; }
+.hero-sound.is-on .on { display: block; }
+.hero-play .play, .hero-play.is-paused .pause { display: none; }
+.hero-play.is-paused .play { display: block; }
+/* a click anywhere on the picture plays or pauses it */
+.hero-video video { cursor: pointer; }
+
+/* A — the reel fills the hero behind everything, under a navy wash in the site's colours */
+.hero[data-hero="bg"] .hero-video { display: block; position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero[data-hero="bg"] .hero-video::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(60% 70% at 50% 85%, rgba(14,31,44,.35), transparent 70%),
+    linear-gradient(rgba(23,41,58,.82), rgba(14,31,44,.9) 70%, var(--navy-deep));
+}
+.hero[data-hero="bg"] .hero-vctl { display: none; }
+.hero[data-hero="bg"] .hero-rings { z-index: 1; }
+.hero[data-hero="bg"] .hero-stage { z-index: 1; }
+
+/* B — a framed player at the end side, the photo in the middle, the buttons centred under it */
+@media (min-width: 861px) {
+  .hero[data-hero="side"] .hero-row { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; }
+  .hero[data-hero="side"] .hero-id { grid-column: 1; grid-row: 1; align-self: center; padding-bottom: 0; }
+  .hero[data-hero="side"] .hero-photo { grid-column: 2; grid-row: 1 / span 2; align-self: end; width: clamp(240px, min(30vw, 52vh), 560px); }
+  .hero[data-hero="side"] .hero-video {
+    display: block; position: relative; grid-column: 3; grid-row: 1; align-self: center; justify-self: end;
+    /* it reaches out past the content column toward the screen edge, so the reel reads big */
+    --out: clamp(0px, (100vw - 1200px) / 2 - 40px, 260px);
+    width: calc(100% + var(--out)); margin-inline-end: calc(-1 * var(--out));
+    aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden;
+    border: 1px solid rgba(205,171,102,.35); box-shadow: 0 30px 60px rgba(0,0,0,.45), 0 0 0 6px rgba(205,171,102,.06);
+  }
+  /* buttons sit on the photo's lower edge, centred, side by side */
+  .hero[data-hero="side"] .hero-cta {
+    grid-column: 2; grid-row: 2; justify-self: center; align-self: end; position: relative; z-index: 3;
+    flex-direction: row; align-items: center; gap: 1.4rem; padding-bottom: clamp(1.5rem, 4vh, 3rem);
+  }
+  .hero[data-hero="side"] .hero-photo .me { mask-image: linear-gradient(#000 60%, transparent 92%); -webkit-mask-image: linear-gradient(#000 60%, transparent 92%); }
+}
+/* phones: the framed player follows the buttons */
+@media (max-width: 860px) {
+  .hero[data-hero="side"] .hero-video {
+    display: block; position: relative; order: 4; width: min(100%, 560px); aspect-ratio: 16 / 9;
+    margin: 0 auto max(1.5rem, 4svh); border-radius: 14px; overflow: hidden; border: 1px solid rgba(205,171,102,.35);
+  }
+}
+/* the framed reel joins the hero's entrance, sliding in after the photo */
+html.anim .hero[data-hero="side"] .hero-video { opacity: 0; transform: translateY(40px) scale(.94); }
+html.anim.intro .hero[data-hero="side"] .hero-video {
+  opacity: 1; transform: none;
+  transition: opacity .9s ease 1.15s, transform 1.3s var(--ease-out) 1.15s;
+}
