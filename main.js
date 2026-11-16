@@ -62,6 +62,10 @@
         else if (!userPaused) vid.play().catch(() => {});
       }).observe(hero);
 
+      // Chrome pauses a muted video while the tab is hidden and doesn't always resume it
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && vid.getAttribute("src") && !userPaused && hero.getBoundingClientRect().bottom > 0) vid.play().catch(() => {});
+      });
       const snd = box.querySelector(".hero-sound"), ply = box.querySelector(".hero-play"), full = box.querySelector(".hero-full");
       const sync = () => {
         ply.classList.toggle("is-paused", vid.paused);
