@@ -14,7 +14,7 @@
     ar: {
       "nav.home": "الرئيسية", "nav.graphic": "جرافيك", "nav.motion": "موشن", "nav.video": "AI & فيديو", "nav.clients": "عملائي", "nav.about": "عني", "nav.contact": "تواصل معي",
       "sec.clients": "عملائي", "clients.sub": "براندات وشركات اشتغلت معاهم.",
-      menu: "القائمة", "cta.work": "شاهد أعمالي", "cta.wa": "كلّمني واتساب", allWorks: "شاهد كل الأعمال", resume: "تحميل سيرتي الذاتية", aiTools: "الأدوات ونماذج الذكاء الاصطناعي", vimeo: "فيميو", tiktok: "تيك توك",
+      menu: "القائمة", "cta.work": "شاهد أعمالي", "cta.wa": "كلّمني واتساب", "top.label": "اضغط للرجوع لأعلى", "top.aria": "الرجوع لأول الصفحة", allWorks: "شاهد كل الأعمال", resume: "تحميل سيرتي الذاتية", aiTools: "الأدوات ونماذج الذكاء الاصطناعي", vimeo: "فيميو", tiktok: "تيك توك",
       "sec.graphic": "جرافيك ديزاين", "sec.motion": "موشن جرافيك", "sec.video": "AI & فيديو برودكشن",
       "contact.title": "عندك فكرة؟ يلا نحرّكها.", "contact.sub": "ابعتلي على واتساب أو الإيميل، وهرد عليك في نفس اليوم.",
       whatsapp: "واتساب", email: "الإيميل", behance: "بيهانس", linkedin: "لينكدإن", instagram: "إنستجرام",
@@ -23,7 +23,7 @@
     en: {
       "sec.clients": "Clients", "clients.sub": "Brands and companies I've worked with.", "nav.clients": "Clients",
       "nav.home": "Home", "nav.graphic": "Graphic", "nav.motion": "Motion", "nav.video": "AI & Video", "nav.about": "About", "nav.contact": "Contact",
-      menu: "Menu", "cta.work": "See my work", "cta.wa": "WhatsApp me", allWorks: "View all work", resume: "Download my resume", aiTools: "Tools & AI models", vimeo: "Vimeo", tiktok: "TikTok",
+      menu: "Menu", "cta.work": "See my work", "cta.wa": "WhatsApp me", "top.label": "Back to top", "top.aria": "Scroll back to the top", allWorks: "View all work", resume: "Download my resume", aiTools: "Tools & AI models", vimeo: "Vimeo", tiktok: "TikTok",
       "sec.graphic": "Graphic Design", "sec.motion": "Motion Graphics", "sec.video": "AI & Video Production",
       "contact.title": "Got an idea? Let's make it move.", "contact.sub": "Message me on WhatsApp or email and I'll reply the same day.",
       whatsapp: "WhatsApp", email: "Email", behance: "Behance", linkedin: "LinkedIn", instagram: "Instagram",
@@ -585,6 +585,71 @@
     hero.addEventListener("pointerleave", () => {
       hero.style.setProperty("--mx", 0);
       hero.style.setProperty("--my", 0);
+    });
+  }
+
+  /* ======================= back to top (liquid glass) ======================= */
+  const top = $("#toTop");
+  if (top) {
+    const body = $(".tt-body", top);
+    const brands = (navigator.userAgentData && navigator.userAgentData.brands) || [];
+    if (brands.some((b) => /Chromium/.test(b.brand))) document.documentElement.classList.add("lg-refract");
+
+    // shows after the first screen; the ring fills with how far down you are; the label slides out near the end
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      const y = scrollY, p = max > 0 ? Math.min(1, y / max) : 0;
+      top.style.setProperty("--p", (p * 100).toFixed(1));
+      top.classList.toggle("is-on", y > innerHeight * 0.6);
+      top.classList.toggle("is-end", p > 0.9);
+    };
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    addEventListener("resize", update);
+    update();
+
+    // the glass leans toward the pointer and its highlight follows it (mouse and trackpad only)
+    if (!reduceMotion && matchMedia("(pointer: fine)").matches) {
+      top.addEventListener("pointermove", (e) => {
+        const r = body.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width, yy = (e.clientY - r.top) / r.height;
+        body.style.setProperty("--px", (x * 100).toFixed(1) + "%");
+        body.style.setProperty("--py", (yy * 100).toFixed(1) + "%");
+        body.style.setProperty("--mx", (x * 2 - 1).toFixed(3));
+        body.style.setProperty("--my", (yy * 2 - 1).toFixed(3));
+      });
+      top.addEventListener("pointerleave", () => {
+        ["--px", "--py", "--mx", "--my"].forEach((v) => body.style.removeProperty(v));
+      });
+    }
+
+    // click: a jelly squash, then a smooth eased glide back to the top
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    top.addEventListener("click", (e) => {
+      e.preventDefault();
+      const from = scrollY;
+      if (reduceMotion || from < 2) { scrollTo(0, 0); return; }
+      top.classList.remove("is-launch"); void top.offsetWidth; top.classList.add("is-launch");
+      setTimeout(() => top.classList.remove("is-launch"), 750);
+      const root = document.documentElement, prev = root.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
+      const dur = Math.min(1400, 600 + from / 6), t0 = performance.now();
+      let stop = false;
+      const cancel = () => { stop = true; };
+      addEventListener("wheel", cancel, { passive: true, once: true });
+      addEventListener("touchstart", cancel, { passive: true, once: true });
+      const step = (now) => {
+        const k = Math.min(1, (now - t0) / dur);
+        if (!stop) scrollTo(0, Math.round(from * (1 - ease(k))));
+        if (k < 1 && !stop) requestAnimationFrame(step);
+        else {
+          root.style.scrollBehavior = prev;
+          removeEventListener("wheel", cancel); removeEventListener("touchstart", cancel);
+          top.blur();
+        }
+      };
+      setTimeout(() => requestAnimationFrame(step), 120); // let the squash start first
     });
   }
 })();

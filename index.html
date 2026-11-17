@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;800;900&display=swap">
-<link rel="stylesheet" href="style.css?v=1794937824">
+<link rel="stylesheet" href="style.css?v=1794938464">
 <script>
   // motion is opt-in: content stays visible if scripts fail or the visitor prefers less motion
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -30,7 +30,7 @@
   </button>
   <button class="intro-skip" type="button"></button>
 </div>
-<script src="intro.js?v=1794937824"></script>
+<script src="intro.js?v=1794938464"></script>
 
 <header class="topbar">
   <div class="wrap topbar-in">
@@ -212,6 +212,24 @@
   </div>
 </footer>
 
+<!-- back to top: liquid-glass pill, appears after the first screen, says its label near the end -->
+<a class="to-top" id="toTop" href="#top" data-t-label="top.aria">
+  <span class="tt-body">
+    <span class="tt-orb" aria-hidden="true">
+      <svg class="tt-ring" viewBox="0 0 60 60"><circle class="tt-track" cx="30" cy="30" r="27"/><circle class="tt-prog" cx="30" cy="30" r="27" pathLength="100"/></svg>
+      <svg class="tt-arrow" viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg>
+    </span>
+    <span class="tt-label" data-t="top.label"></span>
+  </span>
+</a>
+<svg class="tt-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="ttGlass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.011 0.018" numOctaves="2" seed="7" result="n"/>
+    <feGaussianBlur in="n" stdDeviation="2.2" result="nb"/>
+    <feDisplacementMap in="SourceGraphic" in2="nb" scale="22" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
 <!-- نافذة عرض العمل -->
 <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true">
   <div class="lb-panel" id="lbPanel">
@@ -231,7 +249,7 @@
   </div>
 </div>
 
-<script src="data.js?v=1794937824"></script>
-<script src="main.js?v=1794937824"></script>
+<script src="data.js?v=1794938464"></script>
+<script src="main.js?v=1794938464"></script>
 </body>
 </html>

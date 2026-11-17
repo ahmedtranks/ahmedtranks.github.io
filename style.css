@@ -778,3 +778,82 @@ html.anim.intro .hero[data-hero="side"] .hero-video {
 @media (min-width: 861px) {
   .wrap { padding-left: clamp(24px, 3.5vw, 56px); padding-right: clamp(24px, 3.5vw, 56px); }
 }
+
+/* ===== back to top: dark liquid-glass pill (main.js drives --p, .is-on, .is-end, --px/--py) ===== */
+.tt-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.to-top {
+  position: fixed; z-index: 18; /* under the menu (19) and the lightbox (50) */
+  bottom: max(22px, calc(env(safe-area-inset-bottom, 0px) + 14px)); inset-inline-end: clamp(16px, 2.4vw, 32px);
+  text-decoration: none; color: var(--cream); -webkit-tap-highlight-color: transparent;
+  opacity: 0; transform: translateY(26px) scale(.7); pointer-events: none; filter: blur(6px);
+  transition: opacity .45s ease, transform .7s var(--ease-back), filter .45s ease;
+}
+.to-top.is-on { opacity: 1; transform: none; pointer-events: auto; filter: none; }
+.tt-body {
+  --glass: rgba(14, 31, 44, .34);
+  position: relative; display: flex; flex-direction: row-reverse; align-items: center;
+  height: 58px; padding: 4px; border-radius: 999px; isolation: isolate; overflow: hidden;
+  background:
+    linear-gradient(150deg, rgba(255,255,255,.2), rgba(255,255,255,.05) 38%, rgba(255,255,255,0) 60%, rgba(205,171,102,.12)),
+    var(--glass);
+  -webkit-backdrop-filter: blur(14px) saturate(180%) brightness(1.05);
+  backdrop-filter: blur(14px) saturate(180%) brightness(1.05);
+  border: 1px solid rgba(255,255,255,.2);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.6),      /* top rim catching light */
+    inset 0 -1px 1px rgba(255,255,255,.14),    /* bottom rim */
+    inset 0 0 22px rgba(255,255,255,.07),      /* body of the glass */
+    inset 0 -10px 18px -10px rgba(205,171,102,.35),
+    0 14px 34px rgba(0,0,0,.38), 0 3px 8px rgba(0,0,0,.25);
+  translate: calc(var(--mx, 0) * 7px) calc(var(--my, 0) * 7px);
+  transition: translate .5s var(--ease-out), box-shadow .3s ease, background-color .3s;
+}
+/* real refraction where the browser can do it (Chromium) */
+.lg-refract .tt-body { backdrop-filter: url(#ttGlass) blur(9px) saturate(185%) brightness(1.06); }
+/* specular highlight that follows the pointer, and a soft caustic at the bottom */
+.tt-body::before, .tt-body::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1; }
+.tt-body::before { background: radial-gradient(90px 48px at var(--px, 32%) var(--py, 8%), rgba(255,255,255,.38), rgba(255,255,255,0) 70%); transition: opacity .3s; }
+.tt-body::after { background: radial-gradient(70% 60% at 50% 120%, rgba(205,171,102,.28), transparent 70%); }
+
+.tt-orb { position: relative; flex: none; width: 50px; height: 50px; display: grid; place-items: center; }
+.tt-ring { position: absolute; inset: 0; width: 100%; height: 100%; rotate: -90deg; }
+.tt-ring circle { fill: none; stroke-width: 2.4; }
+.tt-track { stroke: rgba(255,255,255,.12); }
+.tt-prog { stroke: var(--gold); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--p, 0)); filter: drop-shadow(0 0 3px rgba(205,171,102,.6)); }
+.tt-arrow { position: relative; width: 22px; height: 22px; fill: none; stroke: var(--cream); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: stroke .2s, translate .35s var(--ease-out); }
+
+.tt-label {
+  max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap;
+  font: 700 .98rem/1 var(--f-second); letter-spacing: .02em; text-shadow: 0 1px 8px rgba(0,0,0,.45);
+  transition: max-width .6s var(--ease-out), opacity .35s ease, padding .6s var(--ease-out);
+}
+html[lang="en"] .tt-label { text-transform: uppercase; font-size: .9rem; letter-spacing: .06em; }
+/* the label slides out near the end of the page, and on hover */
+.to-top.is-end .tt-label, .to-top:hover .tt-label, .to-top:focus-visible .tt-label { max-width: 15rem; opacity: 1; padding-inline: 18px 6px; transition-delay: 0s, .12s, 0s; }
+.to-top:hover .tt-arrow, .to-top:focus-visible .tt-arrow { stroke: var(--gold); translate: 0 -2px; }
+.to-top:hover .tt-body { box-shadow: inset 0 1px 1px rgba(255,255,255,.7), inset 0 -1px 1px rgba(255,255,255,.18), inset 0 0 26px rgba(255,255,255,.1), inset 0 -10px 18px -10px rgba(205,171,102,.5), 0 18px 40px rgba(0,0,0,.42), 0 0 0 4px rgba(205,171,102,.12); }
+.to-top:focus-visible { outline: none; }
+.to-top:focus-visible .tt-body { outline: 2px solid var(--gold); outline-offset: 3px; }
+/* the end of the page: a slow breathing glow invites the click */
+.to-top.is-end .tt-orb::after {
+  content: ""; position: absolute; inset: 3px; border-radius: 50%; box-shadow: 0 0 0 0 rgba(205,171,102,.45);
+  animation: tt-breathe 2.4s ease-out infinite;
+}
+@keyframes tt-breathe { 0% { box-shadow: 0 0 0 0 rgba(205,171,102,.45); } 70%, 100% { box-shadow: 0 0 0 14px rgba(205,171,102,0); } }
+
+/* click: the glass squashes like a drop, the arrow shoots up and comes back from below */
+.to-top.is-launch .tt-body { animation: tt-jelly .7s var(--ease-out); }
+.to-top.is-launch .tt-arrow { animation: tt-shoot .7s var(--ease-out); }
+@keyframes tt-jelly { 0% { scale: 1; } 18% { scale: 1.12 .84; } 40% { scale: .9 1.1; } 62% { scale: 1.04 .97; } 100% { scale: 1; } }
+@keyframes tt-shoot { 0% { translate: 0 0; opacity: 1; } 35% { translate: 0 -30px; opacity: 0; } 36% { translate: 0 26px; opacity: 0; } 100% { translate: 0 0; opacity: 1; } }
+
+@media (max-width: 700px) {
+  .tt-body { height: 52px; }
+  .tt-orb { width: 44px; height: 44px; }
+  .tt-arrow { width: 20px; height: 20px; }
+  .tt-label { font-size: .9rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .to-top, .tt-body, .tt-label { transition-duration: .01s; }
+  .to-top.is-end .tt-orb::after, .to-top.is-launch .tt-body, .to-top.is-launch .tt-arrow { animation: none; }
+}
